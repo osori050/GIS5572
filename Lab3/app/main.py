@@ -4,9 +4,44 @@
 #
 
 from flask import Flask, request
-from sqldatabase import SQLDatabase
 import os
+import psycopg2
 
+def query(query: str) -> str:
+    """Executes a query on a database connection. A connection should already exist.
+    Args:
+        query (str): A SQL query that will be executed.
+    Returns:
+        str: The return from the SQL query.
+    """
+
+    connection = psycopg2.connect(host = '34.27.219.64',
+                              port = '5432',
+                              database = 'lab1',
+                              user = 'postgres',
+                              password = 'student',
+                             )
+
+    # Open Cursor
+    with connection.cursor() as c:
+        # Try to Execute
+        try:
+            # Execute Query
+            c.execute(query)
+
+            # Commit to DB
+            connection.commit()
+
+            # Return Output
+            return c.fetchall()
+
+        except Exception as e:
+            # Roll Back Transaction if Invalid Query
+            connection.rollback()
+
+            # Display Error
+            return "Error: " + e
+        
 
 # Set Vars for Formatting
 start_str = """{"type": "FeatureCollection", "features": """
@@ -24,16 +59,21 @@ def home():
 @app.route("/temperature_predictive_analysis_map")
 def temperature_predictive_analysis():
     # Make Connection
-    SQLDatabase.connect()
+    connection = psycopg2.connect(host = '34.27.219.64',
+                              port = '5432',
+                              database = 'lab1',
+                              user = 'postgres',
+                              password = 'student',
+                             )
 
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
 
     # Formatting
-    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
+    q_out = str(query(q)[0][0]).replace("'", "")
 
     # Close Connection
-    SQLDatabase.close()
+    connection.close()
 
     # Return GeoJSON Result
     return start_str + q_out + end_str
@@ -43,16 +83,21 @@ def temperature_predictive_analysis():
 @app.route("/temperature_interpolation_map")
 def temperature_interpolation():
     # Make Connection
-    SQLDatabase.connect()
+    connection = psycopg2.connect(host = '34.27.219.64',
+                              port = '5432',
+                              database = 'lab1',
+                              user = 'postgres',
+                              password = 'student',
+                             )
 
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi)) FROM gpi;"
 
     # Formatting
-    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
+    q_out = str(query(q)[0][0]).replace("'", "")
 
     # Close Connection
-    SQLDatabase.close()
+    connection.close()
 
     # Return GeoJSON Result
     return start_str + q_out + end_str
@@ -95,6 +140,6 @@ def temperature_interpolation():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
 
 
