@@ -3,17 +3,20 @@ import os
 
 
 class SQLDatabase:
-    def __init__(self, host: str, user: str, password: str, db_name: str, port) -> None:
-        self.host = '34.27.219.64'
+    def __init__(
+        self,
+        host: str,
+        user: str,
+        password: str,
+        database: str,
+        port: str,
+    ) -> None:
+        self.host = '34.133.121.12'
         self.user = 'postgres'
         self.password = 'student'
-        self.database = 'lab1'
+        self.database = 'lab3'
         self.port = '5432'
-
-        # Set Connection to None
         self.connection = None
-
-
     def connect(self) -> None:
         """Makes connection to database."""
         self.connection = psycopg2.connect(

@@ -29,7 +29,7 @@ def temperature_predictive_analysis():
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
 
-    Formatting
+    # Formatting
     q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
 
     # Close Connection
