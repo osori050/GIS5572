@@ -11,10 +11,10 @@ class SQLDatabase:
         database: str,
         port: str,
     ) -> None:
-        self.host = '34.133.121.12'
+        self.host = '34.27.219.64'
         self.user = 'postgres'
         self.password = 'student'
-        self.database = 'lab3'
+        self.database = 'lab1'
         self.port = '5432'
         self.connection = None
     def connect(self) -> None:
