@@ -1,11 +1,16 @@
-# -*- coding: utf-8 -*-
-#
-# Flask API
-#
 
 from flask import Flask, request
 import os
 import psycopg2
+
+# Make connection to database
+connection = psycopg2.connect(host = '34.27.219.64',
+                              port = '5432',
+                              database = 'lab1',
+                              user = 'postgres',
+                              password = 'student',
+                             )
+
 
 def query(query: str) -> str:
     """Executes a query on a database connection. A connection should already exist.
@@ -14,13 +19,6 @@ def query(query: str) -> str:
     Returns:
         str: The return from the SQL query.
     """
-
-    connection = psycopg2.connect(host = '34.27.219.64',
-                              port = '5432',
-                              database = 'lab1',
-                              user = 'postgres',
-                              password = 'student',
-                             )
 
     # Open Cursor
     with connection.cursor() as c:
@@ -58,13 +56,6 @@ def home():
 
 @app.route("/temperature_predictive_analysis_map")
 def temperature_predictive_analysis():
-    # Make Connection
-    connection = psycopg2.connect(host = '34.27.219.64',
-                              port = '5432',
-                              database = 'lab1',
-                              user = 'postgres',
-                              password = 'student',
-                             )
 
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
@@ -79,16 +70,8 @@ def temperature_predictive_analysis():
     return start_str + q_out + end_str
 
 
-
 @app.route("/temperature_interpolation_map")
 def temperature_interpolation():
-    # Make Connection
-    connection = psycopg2.connect(host = '34.27.219.64',
-                              port = '5432',
-                              database = 'lab1',
-                              user = 'postgres',
-                              password = 'student',
-                             )
 
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi)) FROM gpi;"
