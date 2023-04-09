@@ -21,7 +21,7 @@ def home():
     return "GIS 5572: ArcGIS II - Spatial Prediction (Diego Osorio)"
 
 
-@app.route("/Temperature_Predictive_Analysis_Map")
+@app.route("/temperature_predictive_analysis_map")
 def TemperaturePredictiveAnalysis():
     # Make Connection
     SQLDatabase.connect()
@@ -39,7 +39,7 @@ def TemperaturePredictiveAnalysis():
     return start_str + q_out + end_str
 
 
-@app.route("/Temperature_Interpolation_Map")
+@app.route("/temperature_interpolation_map")
 def TemperatureInterpolation():
     # Make Connection
     SQLDatabase.connect()
