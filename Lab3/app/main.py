@@ -30,13 +30,15 @@ def temperature_predictive_analysis():
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
 
     # Formatting
-    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
+    # q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
 
-    # Close Connection
-    SQLDatabase.close()
+    # # Close Connection
+    # SQLDatabase.close()
 
-    # Return GeoJSON Result
-    return start_str + q_out + end_str
+    # # Return GeoJSON Result
+    # return start_str + q_out + end_str
+
+    return q
 
 
 @app.route("/temperature_interpolation_map")
