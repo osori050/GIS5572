@@ -16,7 +16,7 @@ end_str = "}"
 app = Flask(__name__)
 
 # Define Routes
-@app.route("/")
+@app.route("/home")
 def home():
     return "GIS 5572: ArcGIS II - Spatial Prediction (Diego Osorio)"
 
