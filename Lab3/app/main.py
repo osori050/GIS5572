@@ -22,6 +22,13 @@ def query(query: str) -> str:
 
     # Open Cursor
     with connection.cursor() as c:
+        connection = psycopg2.connect(host = '34.27.219.64',
+                              port = '5432',
+                              database = 'lab1',
+                              user = 'postgres',
+                              password = 'student',
+                             )
+        
         # Try to Execute
         try:
             # Execute Query
@@ -51,11 +58,18 @@ app = Flask(__name__)
 # Define Routes
 @app.route("/")
 def home():
-    return "GIS 5572: ArcGIS II - Spatial Prediction (Diego Osorio)"
+    return "GIS 5572: ArcGIS II - Map interpolation (Diego Osorio)"
 
 
 @app.route("/temperature_predictive_analysis_map")
 def temperature_predictive_analysis():
+
+    connection = psycopg2.connect(host = '34.27.219.64',
+                              port = '5432',
+                              database = 'lab1',
+                              user = 'postgres',
+                              password = 'student',
+                             )
 
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
