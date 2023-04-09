@@ -22,7 +22,7 @@ def home():
 
 
 @app.route("/temperature_predictive_analysis_map")
-def TemperaturePredictiveAnalysis():
+def temperature_predictive_analysis():
     # Make Connection
     SQLDatabase.connect()
 
@@ -40,7 +40,7 @@ def TemperaturePredictiveAnalysis():
 
 
 @app.route("/temperature_interpolation_map")
-def TemperatureInterpolation():
+def temperature_interpolation():
     # Make Connection
     SQLDatabase.connect()
 
