@@ -1,46 +1,7 @@
 
 from flask import Flask, request
 import os
-import psycopg2
-
-# Make connection to database
-connection = psycopg2.connect(host = '34.27.219.64',
-                              port = '5432',
-                              database = 'lab1',
-                              user = 'postgres',
-                              password = 'student',
-                             )
-
-
-def query(query: str) -> str:
-    """Executes a query on a database connection. A connection should already exist.
-    Args:
-        query (str): A SQL query that will be executed.
-    Returns:
-        str: The return from the SQL query.
-    """
-
-    # Open Cursor
-    with connection.cursor() as c:
-        
-        # Try to Execute
-        try:
-            # Execute Query
-            c.execute(query)
-
-            # Commit to DB
-            connection.commit()
-
-            # Return Output
-            return c.fetchall()
-
-        except Exception as e:
-            # Roll Back Transaction if Invalid Query
-            connection.rollback()
-
-            # Display Error
-            return "Error: " + e
-        
+from sqldatabase import SQLDatabase       
 
 # Set Vars for Formatting
 start_str = """{"type": "FeatureCollection", "features": """
@@ -58,14 +19,17 @@ def home():
 @app.route("/temperature_predictive_analysis_map")
 def temperature_predictive_analysis():
 
+    # Make Connection
+    SQLDatabase.connect()
+
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
 
     # Formatting
-    q_out = str(query(q)[0][0]).replace("'", "")
+    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
 
     # Close Connection
-    connection.close()
+    SQLDatabase.close()
 
     # Return GeoJSON Result
     return start_str + q_out + end_str
@@ -74,14 +38,17 @@ def temperature_predictive_analysis():
 @app.route("/temperature_interpolation_map")
 def temperature_interpolation():
 
+    # Make Connection
+    SQLDatabase.connect()
+    
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi)) FROM gpi;"
 
     # Formatting
-    q_out = str(query(q)[0][0]).replace("'", "")
+    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
 
     # Close Connection
-    connection.close()
+    SQLDatabase.close()
 
     # Return GeoJSON Result
     return start_str + q_out + end_str
