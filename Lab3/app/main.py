@@ -7,6 +7,8 @@ from sqldatabase import SQLDatabase
 start_str = """{"type": "FeatureCollection", "features": """
 end_str = "}"
 
+db = SQLDatabase(host='34.27.219.64', user='postgres', password='student', database='lab1', port='5432')
+
 # Set Up Flask App
 app = Flask(__name__)
 
@@ -20,16 +22,16 @@ def home():
 def temperature_predictive_analysis():
 
     # Make Connection
-    SQLDatabase.connect()
+    db.connect()
 
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
 
     # Formatting
-    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
+    q_out = str(db.query(q)[0][0]).replace("'", "")
 
     # Close Connection
-    SQLDatabase.close()
+    db.close()
 
     # Return GeoJSON Result
     return start_str + q_out + end_str
@@ -39,16 +41,16 @@ def temperature_predictive_analysis():
 def temperature_interpolation():
 
     # Make Connection
-    SQLDatabase.connect()
-    
+    db.connect()
+
     # Query
     q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi)) FROM gpi;"
 
     # Formatting
-    q_out = str(SQLDatabase.query(q)[0][0]).replace("'", "")
+    q_out = str(db.query(q)[0][0]).replace("'", "")
 
     # Close Connection
-    SQLDatabase.close()
+    db.close()
 
     # Return GeoJSON Result
     return start_str + q_out + end_str

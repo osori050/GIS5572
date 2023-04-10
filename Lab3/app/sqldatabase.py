@@ -3,12 +3,12 @@ import os
 
 
 class SQLDatabase:
-    def __init__(self, host: str, user: str, password: str, database: str) -> None:
-        self.host = '34.27.219.64'
-        self.user = 'postgres'
-        self.password = 'student'
-        self.database = 'lab1'
-        self.port = '5432'
+    def __init__(self, host: str, user: str, password: str, database: str, port: str) -> None:
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
+        self.port = port
         self.connection = None
         
     def connect(self) -> None:
