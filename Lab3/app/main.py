@@ -57,7 +57,7 @@ def temperature_interpolation():
 
 
 @app.route("/Elevation_Predictive_Analysis_Map")
-def ElevationPredictiveAnalysis_Map():
+def elevation_predictive_analysis_map():
     # Make Connection
     db.connect()
 
@@ -75,7 +75,7 @@ def ElevationPredictiveAnalysis_Map():
 
 
 @app.route("/Elevation_Interpolation_Map")
-def elevation_h3():
+def elevation():
     # Make Connection
     db.connect()
 
