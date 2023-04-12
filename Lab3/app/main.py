@@ -25,7 +25,7 @@ def temperature_predictive_analysis():
     db.connect()
 
     # Query
-    q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi_error_estimation)) FROM gpi_error_estimation;"
+    q = "SELECT JSON_AGG(ST_AsGeoJSON(kriging_error_estimation)) FROM kriging_error_estimation;"
 
     # Formatting
     q_out = str(db.query(q)[0][0]).replace("'", "")
@@ -44,7 +44,7 @@ def temperature_interpolation():
     db.connect()
 
     # Query
-    q = "SELECT JSON_AGG(ST_AsGeoJSON(gpi)) FROM gpi;"
+    q = "SELECT JSON_AGG(ST_AsGeoJSON(kriging)) FROM kriging;"
 
     # Formatting
     q_out = str(db.query(q)[0][0]).replace("'", "")
@@ -56,40 +56,40 @@ def temperature_interpolation():
     return start_str + q_out + end_str
 
 
-# @app.route("/Elevation_Predictive_Analysis_Map")
-# def ElevationPredictiveAnalysis_Map():
-#     # Make Connection
-#     db.connect()
+@app.route("/Elevation_Predictive_Analysis_Map")
+def ElevationPredictiveAnalysis_Map():
+    # Make Connection
+    db.connect()
 
-#     # Query
-#     q = "SELECT JSON_AGG(ST_AsGeoJSON(elevation1km_pt_point_diff)) FROM elevation1km_pt_point_diff;"
+    # Query
+    q = "SELECT JSON_AGG(ST_AsGeoJSON(idw_dem_error_estimation)) FROM idw_dem_error_estimation;"
 
-#     # Formatting
-#     q_out = str(db.query(q)[0][0]).replace("'", "")
+    # Formatting
+    q_out = str(db.query(q)[0][0]).replace("'", "")
 
-#     # Close Connection
-#     db.close()
+    # Close Connection
+    db.close()
 
-#     # Return GeoJSON Result
-#     return start_str + q_out + end_str
+    # Return GeoJSON Result
+    return start_str + q_out + end_str
 
 
-# @app.route("/Elevation_Interpolation_Map")
-# def elevation_h3():
-#     # Make Connection
-#     db.connect()
+@app.route("/Elevation_Interpolation_Map")
+def elevation_h3():
+    # Make Connection
+    db.connect()
 
-#     # Query
-#     q = "SELECT JSON_AGG(ST_AsGeoJSON(elevation1km_pt_h3)) FROM elevation1km_pt_h3;"
+    # Query
+    q = "SELECT JSON_AGG(ST_AsGeoJSON(idw_dem)) FROM idw_dem;"
 
-#     # Formatting
-#     q_out = str(db.query(q)[0][0]).replace("'", "")
+    # Formatting
+    q_out = str(db.query(q)[0][0]).replace("'", "")
 
-#     # Close Connection
-#     db.close()
+    # Close Connection
+    db.close()
 
-#     # Return GeoJSON Result
-#     return start_str + q_out + end_str
+    # Return GeoJSON Result
+    return start_str + q_out + end_str
 
 
 if __name__ == "__main__":
